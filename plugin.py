@@ -153,14 +153,14 @@ class Backlog(callbacks.Plugin):
                     lines = int(self.registryValue('lines'))
                     
                 if lines != 0:
-                    irc.queueMsg(ircmsgs.privmsg(msg.nick, "Hello "+msg.nick+". I will now show you up to "+str(lines)+" messages from "+channel+", before you joined. To change this behavior, write me: @setbackloglines [0-25]. Setting it to zero disables this feature. Time is GMT."))
+                    irc.queueMsg(ircmsgs.notice(msg.nick, "Hello "+msg.nick+". I will now show you up to "+str(lines)+" messages from "+channel+", before you joined. To change this behavior, write me: @setbackloglines [0-25]. Setting it to zero disables this feature. Time is GMT."))
                     logg = self.logck.get(channel)
                     for i in range(1, lines):
                         msgg = logg.shift()
                         if msgg == False: 
                             break;
                         else:
-                            irc.queueMsg(ircmsgs.privmsg(msg.nick, str(msgg)))
+                            irc.queueMsg(ircmsgs.notice(msg.nick, str(msgg)))
 
             self.doLog(irc, channel, '*** %s <%s> has joined %s', msg.nick, msg.prefix, channel)
 
