@@ -241,19 +241,19 @@ class Backlog(callbacks.Plugin):
 
     @internationalizeDocstring
     def setbackloglines(self, irc, msg, args, lines):
-        """<number of lines 0-100>
+        """<number of lines 0-"""+str(self.registryValue('maxlines'))+""">
 
         Sets how many lines of backlog are returned to you upon join
         """
         try:
             line = int(lines)
-            if line >= 0 and line < self.registryValue('maxlines')+1:
+            if line >= 0 and line <= int(self.registryValue('maxlines')):
 #                irc.reply("Will now private-message you "+str(line)+" lines of backlog on join.", prefixNick=True)
                 id = msg.nick
                 self.db["1337allthechannels1337", id] = line
                 irc.replySuccess()
             else: 
-                raise ZeroDivisionError('')
+                raise ZeroDivisionError('u suck')
         except ValueError:
                 irc.error(lines+" is not an integer", prefixNick=True)
         except ZeroDivisionError:
