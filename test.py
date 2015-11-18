@@ -1,6 +1,6 @@
 ###
-# Copyright (c) 2015, C0MPAQ
-# All rights reserved.
+# Copyright (c) 2002-2121, 1337 C0MPAQ
+# GPLv3 license http://www.gnu.org/licenses/gpl-3.0.html
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -13,7 +13,35 @@
 #   * Neither the name of the author of this software nor the name of
 #     contributors to this software may be used to endorse or promote products
 #     derived from this software without specific prior written consent.
-#
+#  
+#  * g o a t s e x * g o a t s e x * g o a t s e x *
+#  g                                               g  
+#  o /     \             \            /    \       o
+#  a|       |             \          |      |      a
+#  t|       `.             |         |       :     t
+#  s`        |             |        \|       |     s
+#  e \       | /       /  \\\   --__ \\       :    e
+#  x  \      \/   _--~~          ~--__| \     |    x  
+#  *   \      \_-~                    ~-_\    |    *
+#  g    \_     \        _.--------.______\|   |    g
+#  o      \     \______// _ ___ _ (_(__>  \   |    o
+#  a       \   .  C ___)  ______ (_(____>  |  /    a
+#  t       /\ |   C ____)/      \ (_____>  |_/     t
+#  s      / /\|   C_____) GPLv3 |  (___>   /  \    s
+#  e     |   (   _C_____)\______/  // _/ /     \   e
+#  x     |    \  |__   \\_________// (__/       |  x
+#  *    | \    \____)   `----   --'             |  *
+#  g    |  \_          ___\       /_          _/ | g
+#  o   |              /    |     |  \            | o
+#  a   |             |    /       \  \           | a
+#  t   |          / /    |         |  \           |t
+#  s   |         / /      \__/\___/    |          |s
+#  e  |           /        |    |       |         |e
+#  x  |          |         |    |       |         |x
+#  * g o a t s e x * g o a t s e x * g o a t s e x *
+#  
+#   * You may NOT remove this disclaimer, it is part of the license agreement
+#  
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
