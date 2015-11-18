@@ -49,12 +49,13 @@ _ = PluginInternationalization('Backlog')
 filename = conf.supybot.directories.data.dirize('Backlog.db')
 
 class Arrrr(object):
-    def __init__(self):
+    def __init__(self, numba):
+        self.numba = numba
         self.items = []
 
     def push(self, item):
         self.items.append(item)
-        if len(self.items) > 30:
+        if len(self.items) > self.numba:
             # memory management, python style
             self.items = self.items[1:]
 
@@ -67,15 +68,16 @@ class Arrrr(object):
         return retval.pop()
 
 class Dick(object):
-    def __init__(self):
+    def __init__(self, numba):
         self.items = {}
+        self.numba = numba+5
     def push(self, key, value):
         if not key in self.items:
-            self.items[key] = Arrrr()
+            self.items[key] = Arrrr(self.numba)
         self.items[key].push(value)
     def get(self, key):
         if not key in self.items:
-            self.items[key] = Arrrr()
+            self.items[key] = Arrrr(self.numba)
         # I don't even know if I need this!
         return copy.deepcopy(self.items[key])
     
@@ -106,7 +108,7 @@ class Backlog(callbacks.Plugin):
         self.splitters = TimeoutQueue(splitTimeout)
         self.lastBacklog = plugins.ChannelUserDictionary()
 
-        self.logck = Dick()
+        self.logck = Dick(int(self.registryValue('maxlines')))
 
     def die(self):
         if self.db.flush in world.flushers:
@@ -153,7 +155,7 @@ class Backlog(callbacks.Plugin):
                 if lines != 0:
                     irc.queueMsg(ircmsgs.privmsg(msg.nick, "Hello "+msg.nick+". I will now show you up to "+str(lines)+" messages from "+channel+", before you joined. To change this behavior, write me: @setbackloglines [0-25]. Setting it to zero disables this feature. Time is GMT."))
                     logg = self.logck.get(channel)
-                    for i in range(0, lines-1):
+                    for i in range(1, lines):
                         msgg = logg.shift()
                         if msgg == False: 
                             break;
@@ -228,6 +230,15 @@ class Backlog(callbacks.Plugin):
                            '*** %s <%s> has quit IRC\n',
                            msg.nick, msg.prefix)
 
+    def outFilter(self, irc, msg):
+        # Gotta catch my own messages *somehow* :)
+        # Let's try this little trick...
+        if msg.command in ('PRIVMSG', 'NOTICE'):
+            # Other messages should be sent back to us.
+            m = ircmsgs.IrcMsg(msg=msg, prefix=irc.prefix)
+            self(irc, m)
+        return msg
+
     @internationalizeDocstring
     def setbackloglines(self, irc, msg, args, lines):
         """<number of lines 0-100>
@@ -236,7 +247,7 @@ class Backlog(callbacks.Plugin):
         """
         try:
             line = int(lines)
-            if line > -1 and line < 26:
+            if line >= 0 and line < self.registryValue('maxlines')+1:
 #                irc.reply("Will now private-message you "+str(line)+" lines of backlog on join.", prefixNick=True)
                 id = msg.nick
                 self.db["1337allthechannels1337", id] = line
@@ -246,7 +257,7 @@ class Backlog(callbacks.Plugin):
         except ValueError:
                 irc.error(lines+" is not an integer", prefixNick=True)
         except ZeroDivisionError:
-                irc.error(lines+" is not within 0-25", prefixNick=True)
+                irc.error(lines+" is not within 0-"+str(self.registryValue('maxlines')), prefixNick=True)
             
     setbackloglines = wrap(setbackloglines, ['text'])
 
