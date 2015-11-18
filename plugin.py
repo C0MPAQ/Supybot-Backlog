@@ -219,6 +219,15 @@ class Backlog(callbacks.Plugin):
                        '*** %s <%s> has left %s',
                        msg.nick, msg.prefix, channel)
 
+    def doQuit(self, irc, msg):
+        if not isinstance(irc, irclib.Irc):
+            irc = irc.getRealIrc()
+        for (channel, chan) in self.lastStates[irc].channels.iteritems():
+            if msg.nick in chan.users:
+                self.doLog(irc, channel,
+                           '*** %s <%s> has quit IRC\n',
+                           msg.nick, msg.prefix)
+
     @internationalizeDocstring
     def setbackloglines(self, irc, msg, args, lines):
         """<number of lines 0-100>
