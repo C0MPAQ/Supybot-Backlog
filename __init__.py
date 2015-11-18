@@ -1,5 +1,7 @@
 ###
-# Copyright (c) 2002-2121, 1337 C0MPAQ
+# Copyright (c) 2002-2005, Jeremiah Fincher
+# All rights reserved.
+# Copyright (c) 20015-2121, 1337 C0MPAQ
 # GPLv3 license http://www.gnu.org/licenses/gpl-3.0.html
 #
 # Redistribution and use in source and binary forms, with or without
