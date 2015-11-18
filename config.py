@@ -56,6 +56,9 @@ conf.registerChannelValue(Backlog, 'enabled',
 conf.registerChannelValue(Backlog, 'lines',
     registry.PositiveInteger(10, _("""How many lines of backlog to paste to
     users.""")))
+conf.registerGlobalValue(Backlog, 'maxlines',
+    registry.PositiveInteger(25, _("""Maximum number of lines that can be
+    backlogged.""")))
 
 conf.registerGlobalValue(Backlog, 'requireCapability',
     registry.String('', _("""Determines what capability (if any) is required to

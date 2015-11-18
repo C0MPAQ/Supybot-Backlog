@@ -241,7 +241,7 @@ class Backlog(callbacks.Plugin):
 
     @internationalizeDocstring
     def setbackloglines(self, irc, msg, args, lines):
-        """<number of lines 0-"""+str(self.registryValue('maxlines'))+""">
+        """<number of lines>
 
         Sets how many lines of backlog are returned to you upon join
         """
