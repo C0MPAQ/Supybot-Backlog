@@ -229,7 +229,7 @@ class Backlog(callbacks.Plugin):
             line = int(lines)
             if line > -1 and line < 26:
 #                irc.reply("Will now private-message you "+str(line)+" lines of backlog on join.", prefixNick=True)
-                id = ircdb.users.getUserId(msg.prefix)
+                id = msg.nick
                 self.db["1337allthechannels1337", id] = line
                 irc.replySuccess()
             else: 
