@@ -91,7 +91,7 @@ class Arrrr(object):
             self.items = self.items[1:]
 
     def get(self, num):
-        return self.items[-num-1:]
+        return self.items[-num:]
 
 class Dick(object):
     def __init__(self, numba):
@@ -159,11 +159,11 @@ class Backlog(callbacks.Plugin):
                 if lines != 0:
                     irc.queueMsg(ircmsgs.notice(msg.nick, "Hello "+msg.nick+". I will now show you up to "+str(lines)+" messages from "+channel+", before you joined. To change this behavior, write me: @setbackloglines [0-25]. Setting it to zero disables this feature. Time is GMT."))
                     logg = self.logck.get(channel, lines)
-                    for i in range(1, lines):
+                    for i in range(0, lines):
                         if len(logg) <= 0: 
                             break;
                         else:
-                            irc.queueMsg(ircmsgs.notice(msg.nick, str(logg[:1].pop())))
+                            irc.queueMsg(ircmsgs.notice(msg.nick,str((logg[:1]).pop())))
                             logg = logg[1:]
 
 
