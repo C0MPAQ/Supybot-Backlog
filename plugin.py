@@ -90,13 +90,8 @@ class Arrrr(object):
             # memory management, python style
             self.items = self.items[1:]
 
-    def shift(self):
-        if len(self.items) <= 0:
-            return False
-        # Yesshh
-        retval = self.items[:1]
-        self.items = self.items[1:]
-        return retval.pop()
+    def get(self, num):
+        return self.items[-num:]
 
 class Dick(object):
     def __init__(self, numba):
@@ -106,11 +101,10 @@ class Dick(object):
         if not key in self.items:
             self.items[key] = Arrrr(self.numba)
         self.items[key].push(value)
-    def get(self, key):
+    def get(self, key, num):
         if not key in self.items:
             self.items[key] = Arrrr(self.numba)
-        # I don't even know if I need this!
-        return copy.deepcopy(self.items[key])
+        return self.items[key].get(num)
     
 class BacklogDB(plugins.ChannelUserDB):
     def serialize(self, v):
@@ -185,13 +179,14 @@ class Backlog(callbacks.Plugin):
                     
                 if lines != 0:
                     irc.queueMsg(ircmsgs.notice(msg.nick, "Hello "+msg.nick+". I will now show you up to "+str(lines)+" messages from "+channel+", before you joined. To change this behavior, write me: @setbackloglines [0-25]. Setting it to zero disables this feature. Time is GMT."))
-                    logg = self.logck.get(channel)
+                    logg = self.logck.get(channel, lines)
                     for i in range(1, lines):
-                        msgg = logg.shift()
-                        if msgg == False: 
+                        if len(logg) <= 0: 
                             break;
                         else:
-                            irc.queueMsg(ircmsgs.notice(msg.nick, str(msgg)))
+                            irc.queueMsg(ircmsgs.notice(msg.nick, str(logg[:1].pop())))
+                            logg = logg[1:]
+
 
             self.doLog(irc, channel, '*** %s <%s> has joined %s', msg.nick, msg.prefix, channel)
 
