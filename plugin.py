@@ -91,7 +91,7 @@ class Arrrr(object):
             self.items = self.items[1:]
 
     def get(self, num):
-        return self.items[-num:]
+        return self.items[-num-1:]
 
 class Dick(object):
     def __init__(self, numba):
