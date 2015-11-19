@@ -222,6 +222,7 @@ class Backlog(callbacks.Plugin):
 
     def doPart(self, irc, msg):
         for channel in msg.args[0].split(','):
+            self.lastBacklog[channel, msg.nick] = time.time()
             self.doLog(irc, channel,
                        '*** %s <%s> has left %s',
                        msg.nick, msg.prefix, channel)
@@ -229,9 +230,9 @@ class Backlog(callbacks.Plugin):
     def doQuit(self, irc, msg):
         if not isinstance(irc, irclib.Irc):
             irc = irc.getRealIrc()
-        self.lastBacklog[channel, msg.nick] = time.time()
         for (channel, chan) in self.lastStates[irc].channels.iteritems():
             if msg.nick in chan.users:
+                self.lastBacklog[channel, msg.nick] = time.time()
                 self.doLog(irc, channel,
                            '*** %s <%s> has quit IRC\n',
                            msg.nick, msg.prefix)
