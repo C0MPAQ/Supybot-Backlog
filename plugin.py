@@ -67,6 +67,7 @@ import supybot.conf as conf
 import supybot.utils as utils
 import supybot.world as world
 import supybot.ircdb as ircdb
+import supybot.irclib as irclib
 from supybot.commands import *
 import supybot.ircmsgs as ircmsgs
 import supybot.plugins as plugins
