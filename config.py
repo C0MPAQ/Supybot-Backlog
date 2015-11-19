@@ -90,19 +90,9 @@ conf.registerGlobalValue(Backlog, 'maxlines',
     registry.PositiveInteger(25, _("""Maximum number of lines that can be
     backlogged.""")))
 
-conf.registerGlobalValue(Backlog, 'requireCapability',
-    registry.String('', _("""Determines what capability (if any) is required to
-    add/change/remove the herald of another user.""")))
 conf.registerChannelValue(Backlog, 'throttle',
     registry.PositiveInteger(10, _("""Determines the minimum number of seconds
     between messaging backlogs.""")))
-conf.registerChannelValue(Backlog.throttle, 'afterPart',
-    registry.NonNegativeInteger(0, _("""Determines the minimum number of seconds
-    after parting that the bot will not message the person when they
-    rejoin.""")))
-conf.registerChannelValue(Backlog.throttle, 'afterSplit',
-    registry.NonNegativeInteger(60, _("""Determines the minimum number of seconds
-    after a netsplit that the bot will not herald the users that split.""")))
 
 # This is where your configuration variables (if any) should go.  For example:
 # conf.registerGlobalValue(Backlog, 'someConfigVariableName',

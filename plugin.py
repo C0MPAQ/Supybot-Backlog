@@ -128,9 +128,6 @@ class Backlog(callbacks.Plugin):
                 f.close()
         self.db = BacklogDB(filename)
         world.flushers.append(self.db.flush)
-        self.lastParts = plugins.ChannelUserDictionary()
-        splitTimeout = conf.supybot.plugins.Backlog.throttle.afterSplit
-        self.splitters = TimeoutQueue(splitTimeout)
         self.lastBacklog = plugins.ChannelUserDictionary()
 
         self.logck = Dick(int(self.registryValue('maxlines')))
@@ -141,24 +138,10 @@ class Backlog(callbacks.Plugin):
         self.db.close()
         self.__parent.die()
 
-#    def doQuit(self, irc, msg):
-#        # Netsplit measure
-#        if ircmsgs.isSplit(msg):
-#            self.splitters.enqueue(msg.nick)
-#            try:
-#                id = ircdb.users.getUserId(msg.prefix)
-#                self.splitters.enqueue(id)
-#            except KeyError:
-#                pass
-#
-
     def doJoin(self, irc, msg):
         channel = msg.args[0]
         if self.registryValue('enabled', channel):
             if not ircutils.strEqual(irc.nick, msg.nick):
-        #        if msg.nick in self.splitters:
-        #            self.log.debug('Not messaging %s, recent split.', msg.nick)
-        #            return # Recently split.
                 irc = callbacks.SimpleProxy(irc, msg)
 
                 id = msg.nick
@@ -166,10 +149,7 @@ class Backlog(callbacks.Plugin):
                 now = time.time()
                 throttle = self.registryValue('throttle', channel)
                 if now - self.lastBacklog.get((channel, id), 0) > throttle:
-                    if (channel, id) in self.lastParts:
-                       i = self.registryValue('throttle.afterPart', channel)
-                       if now - self.lastParts[channel, id] < i:
-                           return
+                    return
                 self.lastBacklog[channel, id] = now
                 
                 try:    
