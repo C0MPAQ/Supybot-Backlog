@@ -144,16 +144,15 @@ class Backlog(callbacks.Plugin):
             if not ircutils.strEqual(irc.nick, msg.nick):
                 irc = callbacks.SimpleProxy(irc, msg)
 
-                id = msg.nick
-
                 now = time.time()
                 throttle = self.registryValue('throttle', channel)
-                if now - self.lastBacklog.get((channel, id), 0) > throttle:
+                if now - self.lastBacklog.get((channel, msg.nick), now-1-throttle) < throttle:
                     return
-                self.lastBacklog[channel, id] = now
+                else:
+                    self.lastBacklog[channel, msg.nick] = now
                 
                 try:    
-                    lines = int(self.db["1337allthechannels1337", id])
+                    lines = int(self.db["1337allthechannels1337", msg.nick])
                 except:
                     lines = int(self.registryValue('lines'))
                     
@@ -230,6 +229,7 @@ class Backlog(callbacks.Plugin):
     def doQuit(self, irc, msg):
         if not isinstance(irc, irclib.Irc):
             irc = irc.getRealIrc()
+        self.lastBacklog[channel, msg.nick] = time.time()
         for (channel, chan) in self.lastStates[irc].channels.iteritems():
             if msg.nick in chan.users:
                 self.doLog(irc, channel,
@@ -255,8 +255,7 @@ class Backlog(callbacks.Plugin):
             line = int(lines)
             if line >= 0 and line <= int(self.registryValue('maxlines')):
 #                irc.reply("Will now private-message you "+str(line)+" lines of backlog on join.", prefixNick=True)
-                id = msg.nick
-                self.db["1337allthechannels1337", id] = line
+                self.db["1337allthechannels1337", msg.nick] = line
                 irc.replySuccess()
             else: 
                 raise ZeroDivisionError('u suck')
